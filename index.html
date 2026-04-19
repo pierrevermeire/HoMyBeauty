@@ -1,163 +1,175 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mon App</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>App Soins</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f2f4f8;
-    }
+<style>
+  body {
+    margin:0;
+    font-family: Arial;
+    background:#f4f4f4;
+  }
 
-    /* LOGIN CARD */
-    .login-container {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  /* LOGIN */
+  .login {
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
 
-    .card {
-      background: white;
-      padding: 35px;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      text-align: center;
-      width: 300px;
-    }
+  .card {
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    width:300px;
+    text-align:center;
+    box-shadow:0 10px 20px rgba(0,0,0,0.1);
+  }
 
-    .card h2 {
-      margin-bottom: 20px;
-    }
+  input {
+    width:100%;
+    padding:10px;
+    margin:5px 0;
+    border-radius:8px;
+    border:1px solid #ddd;
+  }
 
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      outline: none;
-    }
+  button {
+    padding:10px;
+    width:100%;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+  }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.2s;
-    }
+  .btn {
+    background:black;
+    color:white;
+  }
 
-    .btn-login {
-      background: #000;
-      color: white;
-    }
+  .box {
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    margin:10px 0;
+    box-shadow:0 5px 10px rgba(0,0,0,0.05);
+  }
 
-    .btn-login:hover {
-      background: #333;
-    }
+  .admin {
+    background:black;
+    color:white;
+    height:100vh;
+    padding:20px;
+  }
 
-    /* SCREENS */
-    .screen {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      text-align: center;
-    }
+  .user {
+    padding:20px;
+  }
 
-    .admin {
-      background: #000;
-      color: white;
-    }
+</style>
 
-    .user {
-      background: #ffeb3b;
-      color: black;
-    }
-
-    .title {
-      font-size: 40px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-
-    .btn-logout {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      margin-top: 20px;
-    }
-
-    .admin .btn-logout {
-      background: white;
-      color: black;
-    }
-
-    .user .btn-logout {
-      background: black;
-      color: white;
-    }
-  </style>
 </head>
 
 <body>
 
 <!-- LOGIN -->
-<div id="loginPage" class="login-container">
+<div id="loginPage" class="login">
   <div class="card">
     <h2>Connexion</h2>
 
     <input id="login" placeholder="Login">
     <input id="password" type="password" placeholder="Mot de passe">
 
-    <button class="btn-login" onclick="login()">Se connecter</button>
+    <button class="btn" onclick="login()">Se connecter</button>
   </div>
 </div>
 
 <script>
-function login() {
-  let login = document.getElementById("login").value;
-  let password = document.getElementById("password").value;
 
-  if (login === "admin" && password === "admin") {
+function login() {
+  let l = document.getElementById("login").value;
+  let p = document.getElementById("password").value;
+
+  if (l === "admin" && p === "admin") {
     showAdmin();
-  } 
-  else if (login === "user" && password === "admin") {
+  }
+  else if (l === "user" && p === "admin") {
     showUser();
-  } 
+  }
   else {
     alert("Identifiants incorrects");
   }
 }
 
-/* ADMIN SCREEN */
+/* ---------------- ADMIN ---------------- */
+
 function showAdmin() {
   document.body.innerHTML = `
-    <div class="screen admin">
-      <div class="title">MODE ADMIN</div>
-      <button class="btn-logout" onclick="location.reload()">Déconnexion</button>
+  <div class="admin">
+
+    <h1>Mode Admin</h1>
+
+    <h2>Soins disponibles</h2>
+
+    <div class="box">
+      <b>💆 Massage</b><br>
+      Soin : 60 min<br>
+      Installation : 10 min<br>
+      Rangement : 10 min<br>
+      <b>Total : 80 min</b>
     </div>
+
+    <div class="box">
+      <b>💅 Manucure</b><br>
+      Soin : 30 min<br>
+      Installation : 5 min<br>
+      Rangement : 5 min<br>
+      <b>Total : 40 min</b>
+    </div>
+
+    <h3>Gestion (future étape)</h3>
+    <button onclick="alert('Ajout soins bientôt')">+ Ajouter soin</button>
+
+    <br><br>
+    <button onclick="location.reload()">Déconnexion</button>
+
+  </div>
   `;
 }
 
-/* USER SCREEN */
+/* ---------------- USER ---------------- */
+
 function showUser() {
   document.body.innerHTML = `
-    <div class="screen user">
-      <div class="title">UTILISATEUR</div>
-      <button class="btn-logout" onclick="location.reload()">Déconnexion</button>
+  <div class="user">
+
+    <h1>Prise de rendez-vous</h1>
+
+    <h3>Choisis un soin</h3>
+
+    <div class="box">
+      <b>💆 Massage</b><br>
+      Durée totale : 80 min<br>
+      <button onclick="alert('Massage sélectionné')">Choisir</button>
     </div>
+
+    <div class="box">
+      <b>💅 Manucure</b><br>
+      Durée totale : 40 min<br>
+      <button onclick="alert('Manucure sélectionné')">Choisir</button>
+    </div>
+
+    <br>
+    <button onclick="location.reload()">Déconnexion</button>
+
+  </div>
   `;
 }
+
 </script>
 
 </body>
