@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mon App</title>
+</head>
+
+<body style="font-family: Arial; text-align: center; margin-top: 100px;">
+
+<h2>Connexion</h2>
+
+<input id="login" placeholder="Login"><br><br>
+<input id="password" type="password" placeholder="Mot de passe"><br><br>
+
+<button onclick="login()">Se connecter</button>
+
+<script>
+function login() {
+  let login = document.getElementById("login").value;
+  let password = document.getElementById("password").value;
+
+  if (login === "admin" && password === "admin") {
+    document.body.innerHTML = `
+      <div style="background:black; color:white; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+        <h1>Mode Admin</h1>
+        <button onclick="location.reload()">Déconnexion</button>
+      </div>
+    `;
+  }
+  else if (login === "user" && password === "admin") {
+    document.body.innerHTML = `
+      <div style="background:yellow; color:black; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+        <h1>Mode Utilisateur</h1>
+        <button onclick="location.reload()">Déconnexion</button>
+      </div>
+    `;
+  }
+  else {
+    alert("Identifiants incorrects");
+  }
+}
+</script>
+
+</body>
+</html>
