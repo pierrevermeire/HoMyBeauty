@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>App Soins</title>
+<title>App Rendez-vous</title>
 
 <style>
   body {
@@ -12,7 +12,6 @@
     background:#f4f4f4;
   }
 
-  /* LOGIN */
   .login {
     height:100vh;
     display:flex;
@@ -59,17 +58,16 @@
     box-shadow:0 5px 10px rgba(0,0,0,0.05);
   }
 
+  .user {
+    padding:20px;
+  }
+
   .admin {
     background:black;
     color:white;
     height:100vh;
     padding:20px;
   }
-
-  .user {
-    padding:20px;
-  }
-
 </style>
 
 </head>
@@ -90,6 +88,18 @@
 
 <script>
 
+/* =========================
+   VARIABLES GLOBALES
+========================= */
+
+let selectedSlot = null;
+let selectedSoin = null;
+let bookedSlots = [];
+
+/* =========================
+   LOGIN
+========================= */
+
 function login() {
   let l = document.getElementById("login").value;
   let p = document.getElementById("password").value;
@@ -105,7 +115,9 @@ function login() {
   }
 }
 
-/* ---------------- ADMIN ---------------- */
+/* =========================
+   ADMIN
+========================= */
 
 function showAdmin() {
   document.body.innerHTML = `
@@ -116,7 +128,7 @@ function showAdmin() {
     <h2>Soins disponibles</h2>
 
     <div class="box">
-      <b>💆 Massage</b><br>
+      💆 <b>Massage</b><br>
       Soin : 60 min<br>
       Installation : 10 min<br>
       Rangement : 10 min<br>
@@ -124,50 +136,127 @@ function showAdmin() {
     </div>
 
     <div class="box">
-      <b>💅 Manucure</b><br>
+      💅 <b>Manucure</b><br>
       Soin : 30 min<br>
       Installation : 5 min<br>
       Rangement : 5 min<br>
       <b>Total : 40 min</b>
     </div>
 
-    <h3>Gestion (future étape)</h3>
-    <button onclick="alert('Ajout soins bientôt')">+ Ajouter soin</button>
-
-    <br><br>
     <button onclick="location.reload()">Déconnexion</button>
 
   </div>
   `;
 }
 
-/* ---------------- USER ---------------- */
+/* =========================
+   USER - AGENDA
+========================= */
 
 function showUser() {
+
+  let slots = [
+    "09:00","10:00","11:00","12:00",
+    "13:00","14:00","15:00","16:00","17:00"
+  ];
+
+  let html = "";
+
+  slots.forEach(slot => {
+
+    let disabled = bookedSlots.includes(slot);
+
+    html += `
+      <div class="box">
+        <b>${slot}</b><br>
+        <button ${disabled ? "disabled" : ""} onclick="selectSlot('${slot}')">
+          ${disabled ? "Réservé" : "Choisir"}
+        </button>
+      </div>
+    `;
+  });
+
   document.body.innerHTML = `
   <div class="user">
 
-    <h1>Prise de rendez-vous</h1>
+    <h1>Agenda</h1>
 
-    <h3>Choisis un soin</h3>
+    <h3>Étape 1 : Choisir un créneau</h3>
 
-    <div class="box">
-      <b>💆 Massage</b><br>
-      Durée totale : 80 min<br>
-      <button onclick="alert('Massage sélectionné')">Choisir</button>
-    </div>
-
-    <div class="box">
-      <b>💅 Manucure</b><br>
-      Durée totale : 40 min<br>
-      <button onclick="alert('Manucure sélectionné')">Choisir</button>
-    </div>
+    ${html}
 
     <br>
     <button onclick="location.reload()">Déconnexion</button>
 
   </div>
   `;
+}
+
+/* =========================
+   ÉTAPE 2 - CHOIX CRÉNEAU
+========================= */
+
+function selectSlot(slot) {
+  selectedSlot = slot;
+
+  document.body.innerHTML = `
+  <div class="user">
+
+    <h1>Choisir un soin</h1>
+
+    <p>Créneau : <b>${slot}</b></p>
+
+    <div class="box">
+      💆 Massage<br>
+      80 min total<br>
+      <button onclick="confirmSoin('massage')">Choisir</button>
+    </div>
+
+    <div class="box">
+      💅 Manucure<br>
+      40 min total<br>
+      <button onclick="confirmSoin('manucure')">Choisir</button>
+    </div>
+
+    <br>
+    <button onclick="showUser()">Retour</button>
+
+  </div>
+  `;
+}
+
+/* =========================
+   DURÉES SOINS
+========================= */
+
+function getDuration(soin) {
+  if (soin === "massage") {
+    return { soin:60, installation:10, rangement:10, total:80 };
+  }
+
+  if (soin === "manucure") {
+    return { soin:30, installation:5, rangement:5, total:40 };
+  }
+}
+
+/* =========================
+   CONFIRMATION RDV
+========================= */
+
+function confirmSoin(soin) {
+
+  let d = getDuration(soin);
+
+  bookedSlots.push(selectedSlot);
+
+  alert(
+    "RDV confirmé\n" +
+    "Créneau : " + selectedSlot + "\n" +
+    "Soin : " + soin + "\n" +
+    "Durée totale : " + d.total + " min"
+  );
+
+  showUser();
 }
 
 </script>
